@@ -20,6 +20,7 @@ public class NetPlayerMovement : NetworkBehaviour
 
     void Update()
     {
+        // Pain Peko
         if (!IsOwner) return;
         movementDirection = new Vector2(Input.GetAxisRaw("Horizontal"), 0);
         
