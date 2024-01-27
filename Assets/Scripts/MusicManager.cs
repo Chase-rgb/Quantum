@@ -41,4 +41,16 @@ public class MusicManager : MonoBehaviour {
 
     } // Update
 
+    public void Pause() {
+        edoTrackSource.Pause();
+        cyberTrackSource.Pause();
+
+    } // Pause
+
+    public void UnPause() {
+        edoTrackSource.UnPause();
+        cyberTrackSource.UnPause();
+
+    } // UnPause
+
 } // MusicManager
