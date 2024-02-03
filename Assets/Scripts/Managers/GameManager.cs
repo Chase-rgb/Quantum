@@ -21,6 +21,10 @@ public class GameManager : MonoBehaviour
 
     private int currentScene;
 
+    private GameObject world1Overlay;
+    private GameObject world2Overlay;
+    private float overlayAlpha = 0.3f;
+
     private void Awake()
     {
         if (instance != null)
@@ -55,6 +59,12 @@ public class GameManager : MonoBehaviour
         {
             currentScene = scene;
             LoadNextLevel();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            world1Overlay.SetActive(!world1Overlay.activeSelf);
+            world2Overlay.SetActive(!world2Overlay.activeSelf);
         }
 
         CopyAndSendPlayerInfo();
@@ -136,50 +146,40 @@ public class GameManager : MonoBehaviour
 
     public void CopyAndSendWorldInfo()
     {
-        GameObject[] world1Level = GameObject.FindGameObjectsWithTag("World1Level");
-        
-        foreach (GameObject go in world1Level)
-        {
-            GameObject transferVersion = Instantiate(go);
-            transferVersion.layer = LayerMask.NameToLayer("World1");
+        GameObject level = GameObject.FindGameObjectWithTag("World1Level");
+        GameObject transferLevel = Instantiate(level);
+        transferLevel.layer = LayerMask.NameToLayer("World1");
+        transferLevel.transform.parent = level.transform.parent;
+        transferLevel.transform.position = level.transform.position + new Vector3(32, 0, 0);
+        world1Overlay = transferLevel;
 
-            int children = transferVersion.transform.childCount;
-
-            for(int i = 0; i < children; i++)
-            {
-                GameObject child = transferVersion.transform.GetChild(i).gameObject;
-                child.layer = LayerMask.NameToLayer("World1");
-            }
-
-            transferVersion.transform.parent = go.transform.parent;
-            transferVersion.transform.position = go.transform.position + new Vector3(32, 0, 0);
-
-            Tilemap tilemap = transferVersion.GetComponentInChildren<Tilemap>();
-            Color color = new Color(tilemap.color.r, tilemap.color.g, tilemap.color.b, 0.5f);
-            tilemap.color = color;
+        for (int i = 0; i < transferLevel.transform.childCount; i++) {
+            GameObject child = transferLevel.transform.GetChild(i).gameObject;
+            child.layer = LayerMask.NameToLayer("World1");
+            Tilemap tm = child.GetComponent<Tilemap>();
+            if (tm)
+                tm.color = new Color(tm.color.r, tm.color.g, tm.color.b, overlayAlpha);
+            SpriteRenderer sr = child.GetComponent<SpriteRenderer>();
+            if (sr)
+                sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, overlayAlpha);
         }
 
-        GameObject[] world2Level = GameObject.FindGameObjectsWithTag("World2Level");
+        level = GameObject.FindGameObjectWithTag("World2Level");
+        transferLevel = Instantiate(level);
+        transferLevel.layer = LayerMask.NameToLayer("World2");
+        transferLevel.transform.parent = level.transform.parent;
+        transferLevel.transform.position = level.transform.position + new Vector3(-32, 0, 0);
+        world2Overlay = transferLevel;
 
-        foreach (GameObject go in world2Level)
-        {
-            GameObject transferVersion = Instantiate(go);
-            transferVersion.layer = LayerMask.NameToLayer("World2");
-
-            int children = transferVersion.transform.childCount;
-
-            for (int i = 0; i < children; i++)
-            {
-                GameObject child = transferVersion.transform.GetChild(i).gameObject;
-                child.layer = LayerMask.NameToLayer("World2");
-            }
-
-            transferVersion.transform.parent = go.transform.parent;
-            transferVersion.transform.position = go.transform.position + new Vector3(-32, 0, 0);
-
-            Tilemap tilemap = transferVersion.GetComponentInChildren<Tilemap>();
-            Color color = new Color(tilemap.color.r, tilemap.color.g, tilemap.color.b, 0.5f);
-            tilemap.color = color;
+        for (int i = 0; i < transferLevel.transform.childCount; i++) {
+            GameObject child = transferLevel.transform.GetChild(i).gameObject;
+            child.layer = LayerMask.NameToLayer("World2");
+            Tilemap tm = child.GetComponent<Tilemap>();
+            if (tm)
+                tm.color = new Color(tm.color.r, tm.color.g, tm.color.b, overlayAlpha);
+            SpriteRenderer sr = child.GetComponent<SpriteRenderer>();
+            if (sr)
+              sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, overlayAlpha);
         }
     }
 
