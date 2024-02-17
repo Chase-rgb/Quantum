@@ -12,7 +12,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] private bool networkingOn = false;
     public bool startFromScene = true;
 
-    private int currentScene;
+    public GameObject shadowPrefab;
+
+    [SerializeField] private GameObject shadow1;
+    [SerializeField] private GameObject shadow2;
+
     private List<SpriteRenderer> w1SpritesCopy = new List<SpriteRenderer>();
     private TilemapRenderer w1TilemapCopy;
     private List<SpriteRenderer> w2SpritesCopy = new List<SpriteRenderer>();
@@ -27,33 +31,20 @@ public class GameManager : MonoBehaviour
         }
 
         instance = this;
-/*
-        if (!networkingOn && startFromScene)
-        {
-            SetPlayers();
-            MakeShadows();
-        }*/
-
-        currentScene = SceneManager.GetActiveScene().buildIndex;
+    }
+    void OnEnable()
+    {
+        SceneManager.sceneLoaded += SetUpLevel;
     }
 
-    void Start()
+    private void OnDisable()
     {
-        if (startFromScene)
-        {
-            LoadNextLevel();
-        }
+        SceneManager.sceneLoaded -= SetUpLevel;
     }
 
     void Update()
     {
         int scene = SceneManager.GetActiveScene().buildIndex;
-
-        if (currentScene != scene)
-        {
-            currentScene = scene;
-            LoadNextLevel();
-        }
 
         if (Input.GetKeyDown(KeyCode.Tab))
         {
@@ -73,7 +64,7 @@ public class GameManager : MonoBehaviour
     }
 
 
-    public void LoadNextLevel()
+    public void SetUpLevel(Scene scene, LoadSceneMode mode)
     {
         PlayerManager.instance.SetPlayers();
         PlayerManager.instance.MakeShadows();
