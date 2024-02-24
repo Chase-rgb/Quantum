@@ -11,24 +11,24 @@ public class PlayerManager : NetworkBehaviour
     private GameObject player2;
     private GameObject shadow1;
     private GameObject shadow2;
+    private Vector3 player1Location;
+    private Vector3 player2Location;
 
     // Currently the curr player object needs to be set for networking. In the future, we might need to change this to a int/string since the player might not be instantiated yet in the menu screen.
     // Right now, this object is set by the NetworkManagerUI
     // Change would require update to SetNetworkedPlayers()
-    public int currPlayer;
     public GameObject currPlayerObject;
     public GameObject otherPlayerObject;
 
-    private NetworkVariable<Vector2> hostSentMomentum = new NetworkVariable<Vector2>(default, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
-    private NetworkVariable<Vector2> clientSentMomentum = new NetworkVariable<Vector2>(default, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
-
+    private NetworkVariable<Vector3> player1Transform = new NetworkVariable<Vector3>();
+    private NetworkVariable<Vector3> player2Transform = new NetworkVariable<Vector3>();
 
     [SerializeField]
     protected GameObject shadowPrefab;
 
 
     // Start is called before the first frame update
-    void Awake()
+    void Start()
     {
         if (instance != null)
         {
@@ -47,6 +47,7 @@ public class PlayerManager : NetworkBehaviour
     public void SetPlayers()
     {
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        Debug.Log("Call to local set players");
 
         foreach (GameObject p in players)
         {
@@ -60,54 +61,51 @@ public class PlayerManager : NetworkBehaviour
                 player2 = p;
             }
         }
-        
+        otherPlayerObject = currPlayerObject == player1 ? player2 : player1;
 
         if (GameManager.instance.IsNetworked()) { setNetworkedPlayers(); }
     }
 
     private void setNetworkedPlayers()
     {
-        if (currPlayerObject == null)
+        if (currPlayerObject != null)
+        {
+            PlayerSettings playerSetting = currPlayerObject.GetComponent<PlayerSettings>();
+            playerSetting.isActivePlayer = true;
+            playerSetting.SetPlayerNetworked();
+
+            if (NetworkManager.Singleton.IsServer)
+            {
+                NetworkManager.Singleton.OnClientConnectedCallback += AssignPlayerOwnership;
+            }
+        }
+        else
         {
             Debug.Log("currPlayer doesn't exist yet");
-            return;
-        }
-
-        otherPlayerObject = currPlayerObject == player1 ? player2 : player1;
-        PlayerSettings playerSetting = currPlayerObject.GetComponent<PlayerSettings>();
-        playerSetting.isActivePlayer = true;
-        playerSetting.SetPlayerNetworked();
-
-        // If the current user is the host, setup host specific stuff like variables
-        if (NetworkManager.Singleton.IsServer)
-        {
-            NetworkManager.Singleton.OnClientConnectedCallback += AssignOwnership;
-        } else
-        // If the current user is the client, setup client specific stuff like variables
-        {
         }
     }
 
-    private void AssignOwnership(ulong clientId)
+    private void AssignPlayerOwnership(ulong clientId)
     {
         otherPlayerObject.GetComponent<NetworkObject>().ChangeOwnership(clientId);
-        this.GetComponent<NetworkObject>().ChangeOwnership(clientId);
     }
 
     private void OnDestroy()
     {
         if (NetworkManager.Singleton && NetworkManager.Singleton.IsServer)
         {
-            NetworkManager.Singleton.OnClientConnectedCallback -= AssignOwnership;
+            NetworkManager.Singleton.OnClientConnectedCallback -= AssignPlayerOwnership;
         }
     }
+
 
     public void MakeShadows()
     {
         shadow1 = Instantiate(shadowPrefab);
         shadow2 = Instantiate(shadowPrefab);
     }
- 
+
+    
 
     public bool isPlayersInit()
     {
@@ -116,63 +114,32 @@ public class PlayerManager : NetworkBehaviour
 
     public void QuantumLockPlayer(GameObject listener)
     {
-        if (!GameManager.instance.IsNetworked())
+        //refactor later to be PlayerMovement once networking is in
+        if (listener == player1)
         {
-            if (listener == player1)
-            {
-                /*            print("Toggling lock to player 2");*/
-                MovementArrows playerMovement = player2.GetComponent<MovementArrows>();
-                playerMovement.sharingMomentum = !playerMovement.sharingMomentum;
-            }
-            else
-            {
-                /*            print("Toggling lock to player 1");*/
-                MovementWASD playerMovement = player1.GetComponent<MovementWASD>();
-                playerMovement.sharingMomentum = !playerMovement.sharingMomentum;
-            }
-        } else
-        {
-
+            /*            print("Toggling lock to player 2");*/
+            MovementArrows playerMovement = player2.GetComponent<MovementArrows>();
+            playerMovement.sharingMomentum = !playerMovement.sharingMomentum;
         }
-
+        else
+        {
+            /*            print("Toggling lock to player 1");*/
+            MovementWASD playerMovement = player1.GetComponent<MovementWASD>();
+            playerMovement.sharingMomentum = !playerMovement.sharingMomentum;
+        }
     }
 
     public void SendMomentum(Vector2 momentum, GameObject sender)
     {
-        if (!GameManager.instance.IsNetworked())
+        if (sender == player1)
         {
-            if (sender == player1 && player2.GetComponent<PlayerSettings>().qlocked)
-            {
-                player2.GetComponent<MovementArrows>().QuantumLockAddMomentum(momentum);
-            }
-            else if (sender == player2 && player1.GetComponent<PlayerSettings>().qlocked)
-            {
-                player1.gameObject.GetComponent<MovementWASD>().QuantumLockAddMomentum(momentum);
-            }
-        } 
+            MovementArrows playerMovement = player2.gameObject.GetComponent<MovementArrows>();
+            playerMovement.QuantumLockAddMomentum(momentum);
+        }
         else
         {
-            if (NetworkManager.Singleton.IsHost)
-            {
-                UpdateMomentumClientRpc(momentum);
-            } else
-            {
-                UpdateMomentumServerRpc(momentum);
-            }
-        }
-    }
-
-    [ClientRpc]
-    public void UpdateMomentumClientRpc(Vector2 momentum) { if (!NetworkManager.Singleton.IsHost) updateMomentum(momentum); }
-
-    [ServerRpc]
-    public void UpdateMomentumServerRpc(Vector2 momentum) { updateMomentum(momentum); }
-
-    public void updateMomentum(Vector2 momentum)
-    {
-        if (currPlayerObject.GetComponent<PlayerSettings>().qlocked)
-        {
-            currPlayerObject.GetComponent<PlayerMovement>().QuantumLockAddMomentum(momentum);
+            MovementWASD playerMovement = player1.gameObject.GetComponent<MovementWASD>();
+            playerMovement.QuantumLockAddMomentum(momentum);
         }
     }
 
