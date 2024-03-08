@@ -9,6 +9,7 @@ public class PlayerSettings : MonoBehaviour
 {
     public bool world1 = false;
     public bool isActivePlayer = false;
+    public bool isDead = false;
 
     public PlayerJump jump;
     public PlayerAnimation anim;
@@ -78,7 +79,10 @@ public class PlayerSettings : MonoBehaviour
         LevelManager lm = LevelManager.instance;
         PlayerMovement pm = GetComponent<PlayerMovement>();
         pm.canMove = false;
-        
+
+        anim.SetTrigger("death");
+
         lm.Reload();
+
     }
 }
