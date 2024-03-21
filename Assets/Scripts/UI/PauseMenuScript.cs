@@ -53,6 +53,11 @@ public class PauseMenuScript : MonoBehaviour
         gamePaused = false;
     }
 
+    public void RestartLevel()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
     void Pause()
     {
         pauseUI.SetActive(true);
