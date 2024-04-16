@@ -13,7 +13,7 @@ public class PlayerSettings : MonoBehaviour
     public PlayerJump jump;
     public PlayerAnimation anim;
 
-  public delegate void OnVariableChangeDelegate(bool newVal);
+/*  public delegate void OnVariableChangeDelegate(bool newVal);
     public event OnVariableChangeDelegate OnVariableQLockChange;
     private bool m_qlocked = false;
 
@@ -26,7 +26,7 @@ public class PlayerSettings : MonoBehaviour
             m_qlocked = value;
             if (OnVariableQLockChange != null) OnVariableQLockChange(m_qlocked);
         }
-    }
+    }*/
 
     private void Awake()
     {
@@ -70,6 +70,12 @@ public class PlayerSettings : MonoBehaviour
             Destroy(this.gameObject.GetComponent<MovementWASD>());
             Destroy(this.gameObject.GetComponent<MovementArrows>());
             UpdatePlayerMovementRef();
+        } else
+        {
+            Destroy(this.gameObject.GetComponent<MovementWASD>());
+            Destroy(this.gameObject.GetComponent<MovementArrows>());
+            Destroy(this.gameObject.GetComponent<PlayerMovement>());
+            UpdatePlayerMovementRef();
         }
     }
 
@@ -81,13 +87,22 @@ public class PlayerSettings : MonoBehaviour
 
     public void Die()
     {
-        LevelManager lm = LevelManager.instance;
+        // LevelManager lm = LevelManager.instance;
+        LevelLoader ll = LevelLoader.instance;
+        GameManager gm = GameManager.instance;
         PlayerMovement pm = GetComponent<PlayerMovement>();
 
         pm.canMove = false;
 
-        anim.SetTrigger("death");
+        if (gm.IsNetworked()) {
+            ll.ReloadLevelServerRpc();
+        } else {
+            anim.SetTrigger("death");
+            ll.ReloadLevel();
+        }
 
-        lm.Reload();
+        
+
+        
     }
 }

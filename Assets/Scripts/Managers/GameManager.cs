@@ -4,6 +4,7 @@ using UnityEngine.Tilemaps;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEngine.InputSystem;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance { get; private set; }
@@ -15,9 +16,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] public bool isGameEnabled = true;
     [SerializeField] private bool networkingOn = false;
     public bool startFromScene = true;
-
-    private GameObject shadow1;
-    private GameObject shadow2;
 
     private GameObject w1Copy;
     private GameObject w2Copy;
@@ -73,22 +71,42 @@ public class GameManager : MonoBehaviour
     }
 
 
-private void OnDisable()
+    private void OnDisable()
     {
         SceneManager.sceneLoaded -= SetUpLevel;
     }
 
     void Update()
     {
+        if (IsNetworked())
+        {
+            if (Input.GetButtonDown("Toggle"))
+            {
+                int currPlayer = PlayerManager.instance.currPlayer;
 
-        // TODO: rework these for networking
-        if (Input.GetKeyDown(KeyCode.Tab))
-        {
-            w2Copy.gameObject.SetActive(!w2Copy.gameObject.activeSelf);
+                if (currPlayer == 1)
+                {
+                    w2Copy.gameObject.SetActive(!w2Copy.gameObject.activeSelf);
+                } else if (currPlayer == 2)
+                {
+                    w1Copy.gameObject.SetActive(!w1Copy.gameObject.activeSelf);
+                }
+            }
         }
-        if (Input.GetKeyDown(KeyCode.Backspace))
+        else
         {
-            w1Copy.gameObject.SetActive(!w1Copy.gameObject.activeSelf);
+            if (Input.GetButtonDown("ToggleLeft"))
+            {
+                w2Copy.gameObject.SetActive(!w2Copy.gameObject.activeSelf);
+            }
+            if (Input.GetButtonDown("ToggleRight"))
+            {
+                w1Copy.gameObject.SetActive(!w1Copy.gameObject.activeSelf);
+            }
+        }
+        if (Input.GetButton("Restart"))
+        {
+            LevelLoader.instance.ReloadLevel();
         }
     }
 
