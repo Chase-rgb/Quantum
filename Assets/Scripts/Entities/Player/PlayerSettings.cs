@@ -1,31 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Multiplayer.Samples.Utilities.ClientAuthority;
+using Unity.Netcode;
 using Unity.Netcode.Components;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class PlayerSettings : MonoBehaviour
 {
-    public bool world1 = false;
+    public bool world1 = false; // if world1 = player1 :D
     public bool isActivePlayer = false;
 
     public PlayerJump jump;
     public PlayerAnimation anim;
-
-    public delegate void OnVariableChangeDelegate(bool newVal);
-    public event OnVariableChangeDelegate OnVariableQLockChange;
-    private bool m_qlocked = false;
-    public bool qlocked
-    {
-        get { return m_qlocked; }
-        set
-        {
-            if (m_qlocked == value) return;
-            m_qlocked = value;
-            if (OnVariableQLockChange != null) OnVariableQLockChange(m_qlocked);
-        }
-    }
 
     private void Awake()
     {
@@ -33,27 +20,50 @@ public class PlayerSettings : MonoBehaviour
         anim = GetComponentInChildren<PlayerAnimation>();
     }
 
-
     void Start()
     {
         if (!GameManager.instance.IsNetworked())
         {
             SetPlayerSplit();
-        } else if (GameManager.instance.IsNetworked())
+        }
+        else if (GameManager.instance.IsNetworked())
         {
             SetPlayerNetworked();
         }
     }
 
+
     public void SetPlayerSplit()
     {
+        int world = this.world1 ? 1 : 2;
+
         // make the player have either WASD or arrow controls
-        if (world1)
+        if (PlayerManager.instance.playerOnLeft == world)
         {
-            this.gameObject.AddComponent<MovementWASD>();
+            Destroy(this.gameObject.GetComponent<PlayerMovement>());
+            Destroy(this.gameObject.GetComponent<MovementArrows>());
         } else
         {
-            this.gameObject.AddComponent<MovementArrows>();
+            Destroy(this.gameObject.GetComponent<PlayerMovement>());
+            Destroy(this.gameObject.GetComponent<MovementWASD>());
+        }
+        UpdatePlayerMovementRef();
+    }
+
+    public void SetPlayerControllerSplit()
+    {
+        int world = this.world1 ? 1 : 2;
+
+        // make the player have controllers
+        if (PlayerManager.instance.playerOnLeft == world)
+        {
+            Destroy(this.gameObject.GetComponent<MovementWASD>());
+            Destroy(this.gameObject.GetComponent<MovementArrows>());
+        }
+        else
+        {
+            Destroy(this.gameObject.GetComponent<MovementArrows>());
+            Destroy(this.gameObject.GetComponent<MovementWASD>());
         }
         UpdatePlayerMovementRef();
     }
@@ -62,7 +72,15 @@ public class PlayerSettings : MonoBehaviour
     {
         if (isActivePlayer)
         {
-            this.gameObject.AddComponent<PlayerMovement>();
+            Destroy(this.gameObject.GetComponent<MovementWASD>());
+            Destroy(this.gameObject.GetComponent<MovementArrows>());
+            UpdatePlayerMovementRef();
+        } else
+        {
+            Destroy(this.gameObject.GetComponent<MovementWASD>());
+            Destroy(this.gameObject.GetComponent<MovementArrows>());
+            Destroy(this.gameObject.GetComponent<PlayerMovement>());
+           // this.gameObject.AddComponent<PlayerSpriteUpdater>();
             UpdatePlayerMovementRef();
         }
     }
@@ -75,7 +93,19 @@ public class PlayerSettings : MonoBehaviour
 
     public void Die()
     {
-        LevelManager lm = LevelManager.instance;
-        lm.Reload();
+        // LevelManager lm = LevelManager.instance;
+        LevelLoader ll = LevelLoader.instance;
+        GameManager gm = GameManager.instance;
+        PlayerMovement pm = GetComponent<PlayerMovement>();
+
+        pm.canMove = false;
+
+        if (gm.IsNetworked()) {
+            ll.ReloadLevelServerRpc();
+        } else {
+            ll.ReloadLevel();
+        }
+
+        anim.SetTrigger("death");
     }
 }

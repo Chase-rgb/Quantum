@@ -1,7 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
 
 public enum CharacterSelection {
     NEUTRAL = 1,
@@ -10,8 +13,11 @@ public enum CharacterSelection {
 
 } // CharacterSelection
 
+
 public class SelectScreenManager : MonoBehaviour {
 
+    public TextMeshProUGUI info;
+    public Button cont;
     private RectTransform edoMaskRect, cyberMaskRect;
     private RectTransform edoBGRect, cyberBGRect;
     private RawImage boyImage, girlImage;
@@ -24,7 +30,8 @@ public class SelectScreenManager : MonoBehaviour {
 
     // Start is called before the first frame update
     void Start() {
-        
+        cont.gameObject.SetActive(false);
+
         selection = CharacterSelection.NEUTRAL;
         xScaleTarget = 0.5f;
         lerpProgress = 100;
@@ -36,35 +43,31 @@ public class SelectScreenManager : MonoBehaviour {
 
         boyImage = transform.GetChild(0).GetChild(0).gameObject.GetComponent<RawImage>();
         girlImage = transform.GetChild(1).GetChild(0).gameObject.GetComponent<RawImage>();
-/*
-        edoMaskRect.sizeDelta = new Vector2(Screen.width / 2, Screen.height);
-        edoBGRect.localScale = new Vector3(1, 1, 0);
-        cyberMaskRect.sizeDelta = new Vector2(Screen.width / 2, Screen.height);
-        cyberBGRect.localScale = new Vector3(1, 1, 0);*/
 
     } // Start
 
     // Update is called once per frame
     void Update() {
         
-        if (Input.GetButtonDown("Horizontal")) {
+        if (Input.GetButtonDown("Horizontal") || (Gamepad.current != null)) {
 
-            if (Input.GetAxisRaw("Horizontal") > 0) {
+            if ((Input.GetAxisRaw("Horizontal") > 0 || (Gamepad.current != null && Gamepad.current.dpad.right.isPressed)) && selection != CharacterSelection.GIRL) {
                 selection = CharacterSelection.GIRL;
                 lerpProgress = 0;
             
-            } else {
+            } else if ((Input.GetAxisRaw("Horizontal") < 0 || (Gamepad.current != null && Gamepad.current.dpad.left.isPressed)) && selection != CharacterSelection.BOY) {
                 selection = CharacterSelection.BOY;
                 lerpProgress = 0;
 
-            } // if
+            }
 
-        } // if
+            info.text = "";
+            cont.gameObject.SetActive(true);
+        } 
 
-        if (Input.GetKeyDown(KeyCode.Space)) {
+        if (Input.GetKeyDown(KeyCode.Space) || (Gamepad.current != null && Gamepad.current.buttonSouth.isPressed)) {
             GoToGame();
-            
-        } // if
+        } 
 
         xScaleTarget = Mathf.Clamp((((int)selection) / 2.0f) - 0.5f, -0.5f, 0.5f);
         imgScaleTarget = ((int)(xScaleTarget * 30) + 1) / 100.0f;
@@ -138,23 +141,53 @@ public class SelectScreenManager : MonoBehaviour {
 
     } // Update
 
+
+
     public void GoToGame() {
+        if (selection == CharacterSelection.NEUTRAL) return;
 
-        switch (selection) {
+        //Handle character selection if not networked
+        if (!GameManager.instance.IsNetworked())
+        {
+            switch (selection)
+            {
+                case CharacterSelection.BOY:
+/*                    Debug.Log("Go to game (P1 is BOY)");*/
+                    PlayerManager.instance.playerOnLeft = 1;
+                    break;
 
-            case CharacterSelection.BOY:
-                Debug.Log("Go to game (Host is BOY)");
-                break;
+                case CharacterSelection.GIRL:
+/*                    Debug.Log("Go to game (P2 is GIRL)");*/
+                    PlayerManager.instance.playerOnLeft = 2;
+                    break;
 
-            case CharacterSelection.GIRL:
-                Debug.Log("Go to game (Host is GIRL)");
-                break;
+                default:
+                    break;
+            }
+            GameManager.instance.GameEnable();
+            LevelLoader.instance.LoadLevelByName("Tutorial 1");
+            MusicManager.instance.StartLevelMusic();
+        }
+        else
+        // Handle character selection if indeed networked
+        {
+            switch (selection)
+            {
+                case CharacterSelection.BOY:
+                    PlayerManager.instance.currPlayer = 1;
+                    break;
 
-            default:
-                break;
+                case CharacterSelection.GIRL:
+                    PlayerManager.instance.currPlayer = 2;
+                    break;
 
-        } // switch
-
+                default:
+                    break;
+            }
+            LevelLoader.instance.LoadLevelByName("Show Public IP", false);
+            //SceneManager.LoadScene("Show Public IP");
+        }
+        
     } // StartGame
 
 } // BackgroundManager

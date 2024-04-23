@@ -4,20 +4,27 @@ using UnityEngine.Tilemaps;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEngine.InputSystem;
+using Unity.Collections.LowLevel.Unsafe;
+
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance { get; private set; }
+    
     public GameObject shadowPrefab;
     public GameObject copyGrid;
-    
-    [SerializeField] private bool networkingOn = false;
-    public bool startFromScene = true;
 
-    private GameObject shadow1;
-    private GameObject shadow2;
+    // Should only be set to true when the main gameplay loop is running
+    [SerializeField] public bool isGameEnabled = true;
+    [SerializeField] public bool networkingOn = false;
+    public bool startFromScene = true;
+    public bool cutscene;
 
     private GameObject w1Copy;
     private GameObject w2Copy;
+    private bool leftToggle;
+    private bool rightToggle;
+
     private float overlayAlpha = 0.3f;
 
     private void Awake()
@@ -27,20 +34,51 @@ public class GameManager : MonoBehaviour
             Destroy(this.gameObject);
             return;
         }
-
         instance = this;
     }
-    void OnEnable()
+
+    private void Start()
     {
-        //if (networkingOn)
-        //{
-        //    NetworkManager.Singleton.SceneManager.OnLoadEventCompleted += SetUpLevel;
-        //} else
-        //{
-        //    SceneManager.sceneLoaded += SetUpLevel;
-        //}
-        SceneManager.sceneLoaded += SetUpLevel;
+        // If GameManager is manually set to gameEnabled, we need to initialize the Game Manager and Player Manager. 
+        if (startFromScene)
+        {
+            GameEnable();
+            SetUpLevel();
+        }
+
+        //if (isGameEnabled) GameEnable();
     }
+    public void GameEnable()
+    {
+        //print("GameEnable");
+        leftToggle = true;
+        rightToggle = true;
+        isGameEnabled = true;
+        //print($"Networking on? {networkingOn}");
+        if (!networkingOn) SceneManager.sceneLoaded += SetUpLevel;
+        else NetworkManager.Singleton.SceneManager.OnLoadComplete += SetUpLevel;
+    }
+
+
+    public void SetNetworkedScreen(bool networked)
+    {
+        networkingOn = networked;
+        
+        if (networkingOn)
+        {
+            Screen.SetResolution(640, 480, false);
+        }
+        else
+        {
+            Screen.SetResolution(1280, 480, false);
+        }
+    }
+
+    public void SetSceneLoad()
+    {
+        NetworkManager.Singleton.SceneManager.OnLoadComplete += SetUpLevel;
+    }
+
 
     private void OnDisable()
     {
@@ -49,31 +87,102 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        // TODO: rework these for networking
-        if (Input.GetKeyDown(KeyCode.Tab))
+        if (IsNetworked())
         {
-            w2Copy.gameObject.SetActive(!w2Copy.gameObject.activeSelf);
+            if (Input.GetButtonDown("Toggle"))
+            {
+                int currPlayer = PlayerManager.instance.currPlayer;
+
+                if (currPlayer == 1)
+                {
+                    leftToggle = !w2Copy.gameObject.activeSelf;
+                    w2Copy.gameObject.SetActive(leftToggle);
+                } else if (currPlayer == 2)
+                {
+                    rightToggle = !w1Copy.gameObject.activeSelf;
+                    w1Copy.gameObject.SetActive(rightToggle);
+                }
+            }
         }
-        if (Input.GetKeyDown(KeyCode.Backspace))
+        else
         {
-            w1Copy.gameObject.SetActive(!w1Copy.gameObject.activeSelf);
+            if (Input.GetButtonDown("ToggleLeft"))
+            {
+                ToggleOverlay(true);
+            }
+            if (Input.GetButtonDown("ToggleRight"))
+            {
+                ToggleOverlay(false);
+            }
+        }
+        if (Input.GetButton("Restart"))
+        {
+            LevelLoader.instance.ReloadLevel();
         }
     }
 
-
-    public void SetUpLevel(Scene scene, LoadSceneMode mode)
+    public void ToggleOverlay(bool world1)
     {
-        PlayerManager.instance.SetPlayers();
-        PlayerManager.instance.MakeShadows();
+        // For Future Programmer reference: w#copy is the copy of the opposing world,
+        // not the current world doing the toggling
+        if (world1)
+        {
+            leftToggle = !w2Copy.gameObject.activeSelf;
+            w2Copy.gameObject.SetActive(leftToggle);
+        }
+        else
+        {
+            rightToggle = !w1Copy.gameObject.activeSelf;
+            w1Copy.gameObject.SetActive(rightToggle);
+        }
+    }
 
-        CopyAndSendWorldInfo();
+    public void SetUpLevel()
+    {
+        // Don't set up the level if PlayerManager doesn't exist
+        //print($"PlayerManager: ${PlayerManager.instance.name}");
+        if (PlayerManager.instance == null) return;
+
+        //Don't set up the level if the players don't exist
+        if (!cutscene && !PlayerManager.instance.SetPlayersAndShadows())
+        {
+            //print($"SetUpLevel Failed. Cutscene ${cutscene}");
+            return;
+        };
+
+        if (networkingOn)
+        {
+            Screen.SetResolution(640, 480, false);
+        }
+        else
+        {
+            Screen.SetResolution(1280, 480, false);
+        }
+
+        if (!cutscene)
+        {
+            CopyAndSendWorldInfo();
+
+            // reset world toggle as needed
+            w2Copy.gameObject.SetActive(leftToggle);
+            w1Copy.gameObject.SetActive(rightToggle);
+        }
+
         SetCameras();
     }
 
-    public void SetUpLevel(string sceneName, LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
-    {
-        SetUpLevel(SceneManager.GetSceneByName(sceneName), loadSceneMode);
+    public void SetUpLevel(Scene scene, LoadSceneMode mode) {
+        SetUpLevel(); 
     }
+
+    public void SetUpLevel(ulong clientId, string sceneName, LoadSceneMode loadSceneMode)
+    {
+        if (clientId == NetworkManager.Singleton.LocalClientId)
+        {
+            SetUpLevel();
+        }
+    }
+
 
     public void CopyAndSendWorldInfo()
     {
@@ -93,13 +202,22 @@ public class GameManager : MonoBehaviour
         CopyHelper(1);
         CopyHelper(2);
 
-        w1Copy.SetActive(w1Open);
-        w2Copy.SetActive(w2Open);
+        if (w1Copy != null && w2Copy != null)
+        {
+            w1Copy.SetActive(w1Open);
+            w2Copy.SetActive(w2Open);
+        }
     }
 
     private void CopyHelper(int world)
     {
         GameObject level = GameObject.FindGameObjectWithTag("World"+world+"Level");
+
+        if (level == null)
+        {
+            return;
+        }
+
         GameObject transferLevel = Instantiate(copyGrid);
         int layer = LayerMask.NameToLayer("World"+world);
         transferLevel.layer = layer;
@@ -201,6 +319,11 @@ public class GameManager : MonoBehaviour
             }
         }
 
+        if (player1camera == null)
+        {
+            return;
+        }
+
         if (networkingOn)
         {
             if (PlayerManager.instance.currPlayer == 1)
@@ -223,26 +346,18 @@ public class GameManager : MonoBehaviour
             player1camera.enabled = true;
             player2camera.enabled = true;
 
-            //edit camera locations on display
-            player1camera.rect = new Rect(0, 0, 0.5f, 1);
-            player2camera.rect = new Rect(0.5f, 0, 0.5f, 1);
+            if (PlayerManager.instance.playerOnLeft == 2)
+            {
+                player1camera.rect = new Rect(0.5f, 0, 0.5f, 1);
+                player2camera.rect = new Rect(0, 0, 0.5f, 1);
+            }
+            else
+            {
+                player1camera.rect = new Rect(0, 0, 0.5f, 1);
+                player2camera.rect = new Rect(0.5f, 0, 0.5f, 1);
+            }
         }
     }
-
-    public void SetNetworked(bool networked)
-    {
-        networkingOn = networked;
-
-        if (networkingOn)
-        {
-            Screen.SetResolution(640, 480, false);
-
-        } else
-        {
-            Screen.SetResolution(1280, 480, false);
-        }
-    }
-
     public bool IsNetworked() {
         return networkingOn;
     }

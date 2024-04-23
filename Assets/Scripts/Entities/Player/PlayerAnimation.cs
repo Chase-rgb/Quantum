@@ -6,7 +6,8 @@ public class PlayerAnimation : MonoBehaviour
 {
 
     private Animator anim;
-    private PlayerMovement move;
+    //private NetworkAnimatorClientAuth nanim;
+    public PlayerMovement move;
     private PlayerCollision coll;
     [HideInInspector]
     public SpriteRenderer sr;
@@ -17,6 +18,8 @@ public class PlayerAnimation : MonoBehaviour
         coll = GetComponentInParent<PlayerCollision>();
         move = GetComponentInParent<PlayerMovement>();
         sr = GetComponent<SpriteRenderer>();
+
+        //nanim = GetComponent<NetworkAnimatorClientAuth>();
     }
 
     void Update()
@@ -24,7 +27,6 @@ public class PlayerAnimation : MonoBehaviour
         anim.SetBool("onGround", coll.onGround);
         anim.SetBool("onWall", coll.onWall);
         anim.SetBool("onWallRight", coll.onRightWall);
-/*        anim.SetBool("wallGrab", move.wallGrab);*/
         if (move != null)
         {
             anim.SetBool("wallSlide", move.wallSlide);
@@ -45,13 +47,19 @@ public class PlayerAnimation : MonoBehaviour
 
     public void SetTrigger(string trigger)
     {
+        /*if (!GameManager.instance.IsNetworked()) { 
+            anim.SetTrigger(trigger);
+        } else
+        {
+            nanim.SetTrigger(trigger);
+        }*/
+
         anim.SetTrigger(trigger);
     }
 
     public void Flip(int side)
     {
-
-        if (move.wallGrab || move.wallSlide)
+        if (move != null && move.wallSlide)
         {
             if (side == -1 && sr.flipX)
                 return;
@@ -68,6 +76,6 @@ public class PlayerAnimation : MonoBehaviour
 
     public void SetMovementRef()
     {
-        move = GetComponent<PlayerMovement>();
+        move = GetComponentInParent<PlayerMovement>();
     }
 }

@@ -12,12 +12,73 @@ EditorBuildSettings:
     path: Assets/Scenes/Game Scenes/SelectMode.unity
     guid: b60ceaa716cab3b4ebb26f0a95926460
   - enabled: 1
-    path: Assets/Scenes/Game Scenes/Tutorial 1.unity
+    path: Assets/Scenes/Game Scenes/CharacterSelection.unity
+    guid: 6c2bedef335198d4dbf67ea0d330bb00
+  - enabled: 1
+    path: Assets/Scenes/Game Scenes/Networking/HostOrClient.unity
+    guid: 52ea5047daaf4a34ba037d4c82e3d13a
+  - enabled: 1
+    path: Assets/Scenes/Game Scenes/Networking/IP Input.unity
+    guid: 770e66712acc0d14b84b9dbe8a5f7f1c
+  - enabled: 1
+    path: Assets/Scenes/Game Scenes/Networking/Show Public IP.unity
+    guid: 94635323af56e6740a256e4c24248700
+  - enabled: 1
+    path: Assets/Scenes/Game Scenes/Networking/WaitingForPlayers.unity
+    guid: b12c13cf1badf4f4482cdeb527290b99
+  - enabled: 1
+    path: Assets/Scenes/Game Scenes/Tutorials/Tutorial 1.unity
     guid: ce44e7b04bc512f4b9c77b20b00a02ac
   - enabled: 1
-    path: Assets/Scenes/Game Scenes/Tutorial 2.unity
+    path: Assets/Scenes/Game Scenes/Tutorials/Tutorial 2.unity
     guid: 3a96685915480794bacc1f648bf1d3df
   - enabled: 1
-    path: Assets/Scenes/Game Scenes/Tutorial 3.unity
+    path: Assets/Scenes/Game Scenes/Tutorials/QLockSandBox.unity
+    guid: 2d89cb2ac8f57724c813bebb25ff2bed
+  - enabled: 1
+    path: Assets/Scenes/Game Scenes/Tutorials/QLockSimple.unity
     guid: cf85b4034bdd03443be61ceded34508c
-  m_configObjects: {}
+  - enabled: 1
+    path: Assets/Scenes/Game Scenes/Rooms/TheLargeJump.unity
+    guid: 71bd22cc5b9f1db409e028ef86ff66f1
+  - enabled: 1
+    path: Assets/Scenes/Game Scenes/Rooms/HeadBonkSpikes.unity
+    guid: 777fa87f9a092594fb264d9995f4c963
+  - enabled: 1
+    path: Assets/Scenes/Game Scenes/Tutorials/QLockWorldIntro.unity
+    guid: 277a41eae25f06b4ba2c22d6173074aa
+  - enabled: 1
+    path: Assets/Scenes/Game Scenes/Rooms/Allison1.unity
+    guid: 9a234d8c6a5730d4e83538faf4a430c7
+  - enabled: 1
+    path: Assets/Scenes/Game Scenes/Rooms/Laddering.unity
+    guid: e46d222c2f1906b41b2f1262a1f82ac3
+  - enabled: 1
+    path: Assets/Scenes/Game Scenes/Rooms/BouncyHouse.unity
+    guid: 63af222a69091d349a00afce4f12f04a
+  - enabled: 1
+    path: Assets/Scenes/Game Scenes/Rooms/Sakshi1.unity
+    guid: 3e06a0bca07ac2b4e8b38dc976bcff29
+  - enabled: 1
+    path: Assets/Scenes/Game Scenes/Rooms/FanTiming.unity
+    guid: 047be99d72e976040bedd866b2b07244
+  - enabled: 1
+    path: Assets/Scenes/Game Scenes/Rooms/Sakshi2.unity
+    guid: 982a7ab163611174d81252cf80748e1d
+  - enabled: 1
+    path: Assets/Scenes/Game Scenes/Rooms/LRoom.unity
+    guid: b915894b1c1170e45a54e7dfcce04a8b
+  - enabled: 1
+    path: Assets/Scenes/Game Scenes/CatScene.unity
+    guid: 2c6ac392af2d75547bd37e16605ac4a4
+  - enabled: 1
+    path: Assets/Scenes/Game Scenes/Ending1.unity
+    guid: 49cb4b798b9daf949b69948c2fcb1899
+  - enabled: 1
+    path: Assets/Scenes/Game Scenes/Ending2.unity
+    guid: 3b3dd479434db9e429fcadfe4d9fd98c
+  - enabled: 0
+    path: Assets/Scenes/Chase/Baseline.unity
+    guid: 8b7f97d6954765544a2423a4f461bbbf
+  m_configObjects:
+    com.unity.input.settings: {fileID: 11400000, guid: 23037376ef66b004887fd8047dec766b, type: 2}
