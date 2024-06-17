@@ -88,7 +88,6 @@ public class PlayerManager : NetworkBehaviour
     public bool SetPlayersAndShadows()
     {
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
-        //print($"Players Length: ${players.Length}");
         if (players.Length == 0) return false;
 
         if (GameManager.instance.IsNetworked())
@@ -335,6 +334,14 @@ public class PlayerManager : NetworkBehaviour
         }
 
         return null;
+    }
+
+    public void CleanDisconnect() 
+    {
+        if (!GameManager.instance.IsNetworked()) { return; }
+        NetworkManager.Singleton.OnClientDisconnectCallback -= GameManager.instance.BackToMainMenu;
+        GameManager.instance.networkingOn = false;
+        NetworkManager.Singleton.Shutdown();
     }
 
 
