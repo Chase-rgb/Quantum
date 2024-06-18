@@ -27,6 +27,8 @@ public class GameManager : MonoBehaviour
 
     private float overlayAlpha = 0.3f;
 
+    private int collectedYarn = 0;
+
     private void Awake()
     {
         if (instance != null && instance != this)
@@ -45,6 +47,8 @@ public class GameManager : MonoBehaviour
             GameEnable();
             SetUpLevel();
         }
+
+        collectedYarn = 0;
 
         //if (isGameEnabled) GameEnable();
     }
@@ -387,4 +391,14 @@ public class GameManager : MonoBehaviour
     public void SendMomentum(Vector2 momentum, GameObject sender) { PlayerManager.instance.SendMomentum(momentum, sender); }
 
     //public void SetPlayerAndShadow(GameObject player, GameObject shadow, int num) { PlayerManager.instance.SetPlayerAndShadow(player, shadow, num); }
+
+    public void collectYarn()
+    {
+        collectedYarn += 1;
+    }
+
+    public int getCollectedYarnCount()
+    {
+        return collectedYarn;
+    }
 }
