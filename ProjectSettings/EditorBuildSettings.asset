@@ -9,6 +9,15 @@ EditorBuildSettings:
     path: Assets/Scenes/Game Scenes/StartMenu.unity
     guid: 23f34ec9ba0bfc941afc63ab3af593a8
   - enabled: 1
+    path: Assets/Scenes/Game Scenes/Opening1.unity
+    guid: 00fba1f6a13a5f5418f2d2c47ef7f6b0
+  - enabled: 1
+    path: Assets/Scenes/Game Scenes/Opening2.unity
+    guid: 9e72114696ea8034ea4398514140a778
+  - enabled: 1
+    path: Assets/Scenes/Game Scenes/Opening3.unity
+    guid: f347430c715114647834923819ace427
+  - enabled: 1
     path: Assets/Scenes/Game Scenes/SelectMode.unity
     guid: b60ceaa716cab3b4ebb26f0a95926460
   - enabled: 1

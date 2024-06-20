@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class StartMenu : MonoBehaviour {
 
     public void StartGame() {
-        LevelLoader.instance.LoadLevelByName("SelectMode");
+        LevelLoader.instance.LoadLevelByName("Opening1");
     }
 
     public void ExitGame() {
