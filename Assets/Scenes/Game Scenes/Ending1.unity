@@ -185,6 +185,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f671b98fec4407843bc840be02070def, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  start: 0
   next: Ending2
 --- !u!4 &132421105
 Transform:
@@ -450,7 +451,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3622792529283053304, guid: b7dceb57a59b0a843ba0928109e3ca6c, type: 3}
       propertyPath: GlobalObjectIdHash
-      value: 1847702032
+      value: 2383846429
       objectReference: {fileID: 0}
     - target: {fileID: 3641129102115278543, guid: b7dceb57a59b0a843ba0928109e3ca6c, type: 3}
       propertyPath: m_Name
@@ -603,6 +604,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 2296281686
+  InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
@@ -739,6 +741,10 @@ PrefabInstance:
     - target: {fileID: 440233175285807851, guid: ad57db9ed37630c489e34ad10cd95b70, type: 3}
       propertyPath: networkingOn
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 440233175285807851, guid: ad57db9ed37630c489e34ad10cd95b70, type: 3}
+      propertyPath: collectedYarn
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 440233175285807851, guid: ad57db9ed37630c489e34ad10cd95b70, type: 3}
       propertyPath: startFromScene

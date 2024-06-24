@@ -27,7 +27,8 @@ public class GameManager : MonoBehaviour
 
     private float overlayAlpha = 0.3f;
 
-    private int collectedYarn = 0;
+    [SerializeField] private int collectedYarn = 0;
+    [SerializeField] private float startTime = 0;
 
     private void Awake()
     {
@@ -61,6 +62,7 @@ public class GameManager : MonoBehaviour
         //print($"Networking on? {networkingOn}");
         if (!networkingOn) SceneManager.sceneLoaded += SetUpLevel;
         else NetworkManager.Singleton.SceneManager.OnLoadComplete += SetUpLevel;
+        startTime = Time.time;
     }
 
 
@@ -400,5 +402,10 @@ public class GameManager : MonoBehaviour
     public int getCollectedYarnCount()
     {
         return collectedYarn;
+    }
+
+    public float getStartTime()
+    {
+        return startTime;
     }
 }
