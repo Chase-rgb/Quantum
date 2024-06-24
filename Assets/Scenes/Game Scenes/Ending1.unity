@@ -744,7 +744,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 440233175285807851, guid: ad57db9ed37630c489e34ad10cd95b70, type: 3}
       propertyPath: collectedYarn
-      value: 3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 440233175285807851, guid: ad57db9ed37630c489e34ad10cd95b70, type: 3}
       propertyPath: startFromScene
