@@ -369,8 +369,17 @@ public class GameManager : MonoBehaviour
     }
 
     public void RemoveDoNotDestroyObjects() {
-        Destroy(FindAnyObjectByType<PlayerManager>().gameObject);
-        Destroy(FindAnyObjectByType<NetworkManager>().gameObject);
+        PlayerManager pm = FindAnyObjectByType<PlayerManager>();
+        if (pm)
+        {
+            Destroy(pm.gameObject);
+        }
+
+        NetworkManager nm = FindAnyObjectByType<NetworkManager>();
+        if (nm)
+        {
+            Destroy(nm.gameObject);
+        }
         Destroy(gameObject);
     }
 
