@@ -20,7 +20,7 @@ public class EndingScreen : MonoBehaviour
         // need to change the time into HH:MM:SS
         TimeSpan timeFormated = TimeSpan.FromSeconds(timeSpent);
         timeText.text = timeFormated.ToString().Substring(0, 8);
-        yarnText.text = totalYarn.ToString();
+        yarnText.text = totalYarn.ToString() + " / 13";
     }
 
 }

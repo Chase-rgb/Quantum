@@ -28,6 +28,7 @@ public class GameManager : MonoBehaviour
     private float overlayAlpha = 0.3f;
 
     [SerializeField] private int collectedYarn = 0;
+    [SerializeField] List<int> collectedYarnId = new List<int>();
     [SerializeField] private float startTime = 0;
 
     private void Awake()
@@ -175,6 +176,18 @@ public class GameManager : MonoBehaviour
         }
 
         SetCameras();
+
+        //Check yarn and delete already collected ones C,:
+        GameObject[] yarns = GameObject.FindGameObjectsWithTag("yarn");
+        
+        foreach (GameObject yarn in yarns)
+        {
+            Yarn y = yarn.GetComponent<Yarn>();
+            if (y && collectedYarnId.Contains(y.id))
+            {
+                Destroy(yarn);
+            }
+        }
     }
 
     public void SetUpLevel(Scene scene, LoadSceneMode mode) {
@@ -403,9 +416,14 @@ public class GameManager : MonoBehaviour
 
     //public void SetPlayerAndShadow(GameObject player, GameObject shadow, int num) { PlayerManager.instance.SetPlayerAndShadow(player, shadow, num); }
 
-    public void collectYarn()
+    public void collectYarn(int id)
     {
+        if (collectedYarnId.Contains(id))
+        {
+            return;
+        }
         collectedYarn += 1;
+        collectedYarnId.Add(id);
     }
 
     public int getCollectedYarnCount()
