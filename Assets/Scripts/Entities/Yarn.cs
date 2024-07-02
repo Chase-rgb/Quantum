@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Yarn : MonoBehaviour
 {
+    public int id = 0;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -11,7 +12,7 @@ public class Yarn : MonoBehaviour
 
         if (tag == "Player")
         {
-            GameManager.instance.collectYarn();
+            GameManager.instance.collectYarn(id);
             Destroy(this.gameObject);
         }
     }

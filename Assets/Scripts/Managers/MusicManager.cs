@@ -128,6 +128,12 @@ public class MusicManager : MonoBehaviour {
         instance.UnPause();
     }
 
+    public void SetMainMenuMusic()
+    {
+        instance.mainMenu = true;
+        instance.cyberActive = false;
+    }
+
     public void Play(string sfx)
     {
         soundfx[sfx].Play();
