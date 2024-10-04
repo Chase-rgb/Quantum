@@ -149,7 +149,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2959426222563362635, guid: 38efb60c05859144986652e1304c81b9, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3620199758897737665, guid: 38efb60c05859144986652e1304c81b9, type: 3}
       propertyPath: m_LocalPosition.x
@@ -201,11 +201,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5376327963387568492, guid: 38efb60c05859144986652e1304c81b9, type: 3}
       propertyPath: m_Size.x
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5376327963387568492, guid: 38efb60c05859144986652e1304c81b9, type: 3}
       propertyPath: m_SpriteTilingProperty.newSize.x
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5503175262874689794, guid: 38efb60c05859144986652e1304c81b9, type: 3}
       propertyPath: m_LocalPosition.x
@@ -217,7 +217,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6107487052311542876, guid: 38efb60c05859144986652e1304c81b9, type: 3}
       propertyPath: m_Size.x
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2275,19 +2275,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1068600763302938406, guid: 38efb60c05859144986652e1304c81b9, type: 3}
       propertyPath: m_Size.x
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2649472128476113398, guid: 38efb60c05859144986652e1304c81b9, type: 3}
       propertyPath: m_Size.x
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2649472128476113398, guid: 38efb60c05859144986652e1304c81b9, type: 3}
       propertyPath: m_SpriteTilingProperty.newSize.x
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2959426222563362635, guid: 38efb60c05859144986652e1304c81b9, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3421835760569780580, guid: 38efb60c05859144986652e1304c81b9, type: 3}
       propertyPath: platformPosition1
@@ -2346,8 +2346,12 @@ PrefabInstance:
       value: 5.0202394
       objectReference: {fileID: 0}
     - target: {fileID: 5376327963387568492, guid: 38efb60c05859144986652e1304c81b9, type: 3}
+      propertyPath: m_Size.x
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5376327963387568492, guid: 38efb60c05859144986652e1304c81b9, type: 3}
       propertyPath: m_SpriteTilingProperty.newSize.x
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5503175262874689794, guid: 38efb60c05859144986652e1304c81b9, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2359,7 +2363,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6107487052311542876, guid: 38efb60c05859144986652e1304c81b9, type: 3}
       propertyPath: m_Size.x
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2724,7 +2728,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2959426222563362635, guid: 38efb60c05859144986652e1304c81b9, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3421835760569780580, guid: 38efb60c05859144986652e1304c81b9, type: 3}
       propertyPath: m_Enabled
@@ -2780,11 +2784,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5376327963387568492, guid: 38efb60c05859144986652e1304c81b9, type: 3}
       propertyPath: m_Size.x
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5376327963387568492, guid: 38efb60c05859144986652e1304c81b9, type: 3}
       propertyPath: m_SpriteTilingProperty.newSize.x
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5503175262874689794, guid: 38efb60c05859144986652e1304c81b9, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2796,7 +2800,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6107487052311542876, guid: 38efb60c05859144986652e1304c81b9, type: 3}
       propertyPath: m_Size.x
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2976,7 +2980,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2959426222563362635, guid: 38efb60c05859144986652e1304c81b9, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3620199758897737665, guid: 38efb60c05859144986652e1304c81b9, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3028,11 +3032,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5376327963387568492, guid: 38efb60c05859144986652e1304c81b9, type: 3}
       propertyPath: m_Size.x
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5376327963387568492, guid: 38efb60c05859144986652e1304c81b9, type: 3}
       propertyPath: m_SpriteTilingProperty.newSize.x
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5503175262874689794, guid: 38efb60c05859144986652e1304c81b9, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3044,7 +3048,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6107487052311542876, guid: 38efb60c05859144986652e1304c81b9, type: 3}
       propertyPath: m_Size.x
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3204,7 +3208,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2959426222563362635, guid: 38efb60c05859144986652e1304c81b9, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3620199758897737665, guid: 38efb60c05859144986652e1304c81b9, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3260,11 +3264,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5376327963387568492, guid: 38efb60c05859144986652e1304c81b9, type: 3}
       propertyPath: m_Size.x
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5376327963387568492, guid: 38efb60c05859144986652e1304c81b9, type: 3}
       propertyPath: m_SpriteTilingProperty.newSize.x
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5503175262874689794, guid: 38efb60c05859144986652e1304c81b9, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3276,7 +3280,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6107487052311542876, guid: 38efb60c05859144986652e1304c81b9, type: 3}
       propertyPath: m_Size.x
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7307,7 +7311,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2959426222563362635, guid: 38efb60c05859144986652e1304c81b9, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3620199758897737665, guid: 38efb60c05859144986652e1304c81b9, type: 3}
       propertyPath: m_LocalPosition.x
@@ -7359,11 +7363,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5376327963387568492, guid: 38efb60c05859144986652e1304c81b9, type: 3}
       propertyPath: m_Size.x
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5376327963387568492, guid: 38efb60c05859144986652e1304c81b9, type: 3}
       propertyPath: m_SpriteTilingProperty.newSize.x
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5503175262874689794, guid: 38efb60c05859144986652e1304c81b9, type: 3}
       propertyPath: m_LocalPosition.x
@@ -7375,7 +7379,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6107487052311542876, guid: 38efb60c05859144986652e1304c81b9, type: 3}
       propertyPath: m_Size.x
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

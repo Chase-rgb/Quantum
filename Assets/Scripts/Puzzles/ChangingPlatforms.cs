@@ -20,6 +20,7 @@ public class ChangingPlatforms : MonoBehaviour
             one = true;
 
             resetOnStart = false;
+            GameManager.instance.SetUpLevel();
         }
     }
 
