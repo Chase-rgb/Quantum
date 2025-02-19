@@ -12,13 +12,13 @@ public class OpenOptions : MonoBehaviour
     private void Start()
     {
         timePassed = 0;
-        timeWait = 1.2f;
+        timeWait = 10f;
         done = false;
 
-        if (PlayerManager.instance.hostPlayer.Value != PlayerManager.instance.currPlayer)
-        {
-            Destroy(this.gameObject);
-        }
+       // if (PlayerManager.instance.hostPlayer.Value != PlayerManager.instance.currPlayer)
+       // {
+       //     Destroy(this.gameObject);
+       // }
     }
 
     private void Update()
