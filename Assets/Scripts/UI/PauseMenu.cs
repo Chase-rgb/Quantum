@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class PauseMenu: MonoBehaviour
 {
@@ -21,6 +22,12 @@ public class PauseMenu: MonoBehaviour
     public GameObject optionsMenu2;
     public GameObject quitCheck2;
     public bool quit = false;
+
+    public TextMeshProUGUI yarnCountDisplay1;
+    public TextMeshProUGUI roomNumDisplay1;
+
+    public TextMeshProUGUI yarnCountDisplay2;
+    public TextMeshProUGUI roomNumDisplay2;
 
     void Awake()
     {
@@ -221,6 +228,12 @@ public class PauseMenu: MonoBehaviour
 
     public void TriggerPause()
     {
+        this.yarnCountDisplay1.text = "" + GameManager.instance.getCollectedYarnCount();
+        this.roomNumDisplay1.text = "" + GameManager.instance.getRoomNumber();
+
+        this.yarnCountDisplay2.text = "" + GameManager.instance.getCollectedYarnCount();
+        this.roomNumDisplay2.text = "" + GameManager.instance.getRoomNumber();
+
         if (GameManager.instance.IsNetworked())
         {
             PauseMenuManager.instance.TogglePauseServerRpc();

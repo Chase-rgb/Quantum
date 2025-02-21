@@ -28,6 +28,7 @@ public class GameManager : MonoBehaviour
     private float overlayAlpha = 0.3f;
 
     [SerializeField] private int collectedYarn = 0;
+    [SerializeField] private int roomNumber = 0;
     [SerializeField] List<int> collectedYarnId = new List<int>();
     [SerializeField] private float startTime = 0;
 
@@ -184,6 +185,7 @@ public class GameManager : MonoBehaviour
                 Destroy(yarn);
             }
         }
+        roomNumber += 1;
     }
 
     public void SetUpLevel(Scene scene, LoadSceneMode mode) {
@@ -425,6 +427,11 @@ public class GameManager : MonoBehaviour
     public int getCollectedYarnCount()
     {
         return collectedYarn;
+    }
+
+    public int getRoomNumber()
+    {
+        return roomNumber;
     }
 
     public float getStartTime()
