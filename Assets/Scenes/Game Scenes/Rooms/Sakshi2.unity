@@ -1443,7 +1443,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3972179210991023784, guid: 2b167c32040f88744880d551b0f05bdd, type: 3}
       propertyPath: jumpThresholdSpeed
-      value: 10
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 4449776396451322733, guid: 2b167c32040f88744880d551b0f05bdd, type: 3}
       propertyPath: m_Name
@@ -1628,6 +1628,10 @@ PrefabInstance:
     - target: {fileID: 2769327023743993, guid: 559fce262c9ffc445b3d0846e52af528, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1568533569682720562, guid: 559fce262c9ffc445b3d0846e52af528, type: 3}
+      propertyPath: roomNumber
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 1926562337947607237, guid: 559fce262c9ffc445b3d0846e52af528, type: 3}
       propertyPath: GlobalObjectIdHash

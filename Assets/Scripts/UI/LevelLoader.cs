@@ -13,6 +13,7 @@ public class LevelLoader : NetworkBehaviour
 
     public static LevelLoader instance;
 
+    public int roomNumber = 1;
 
     void Start()
     {
@@ -34,11 +35,13 @@ public class LevelLoader : NetworkBehaviour
 
     public void LoadNextLevel()
     {
+        GameManager.instance.updateRoomNumber(roomNumber);
         StartCoroutine(LoadLevel(SceneManager.GetActiveScene().buildIndex + 1));
     }
 
     public void LoadLevelByName(string name)
     {
+        GameManager.instance?.updateRoomNumber(roomNumber);
         if (name.Equals("StartMenu"))
         {
             GameObject[] inputs = GameObject.FindGameObjectsWithTag("Inputs");
@@ -47,6 +50,8 @@ public class LevelLoader : NetworkBehaviour
             {
                 Destroy(input);
             }
+
+            GameManager.instance.updateRoomNumber(0);
         }
 
         StartCoroutine(LoadLevel(name));
@@ -54,6 +59,7 @@ public class LevelLoader : NetworkBehaviour
 
     public void LoadLevelByName(string name, bool check)
     {
+        GameManager.instance?.updateRoomNumber(roomNumber);
         if (name.Equals("StartMenu"))
         {
             GameObject[] inputs = GameObject.FindGameObjectsWithTag("Inputs");

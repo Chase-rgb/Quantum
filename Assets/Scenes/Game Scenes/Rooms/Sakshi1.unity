@@ -825,6 +825,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1568533569682720562, guid: 559fce262c9ffc445b3d0846e52af528, type: 3}
+      propertyPath: roomNumber
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 1926562337947607237, guid: 559fce262c9ffc445b3d0846e52af528, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 3648100062
@@ -7052,7 +7056,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5586239694988307996, guid: cd05cec826b0df14d8c34f90066cfff4, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5953528494720459928, guid: cd05cec826b0df14d8c34f90066cfff4, type: 3}
       propertyPath: m_Pivot.x
@@ -7440,7 +7444,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3972179210991023784, guid: 2b167c32040f88744880d551b0f05bdd, type: 3}
       propertyPath: jumpThresholdSpeed
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4449776396451322733, guid: 2b167c32040f88744880d551b0f05bdd, type: 3}
       propertyPath: m_Name
@@ -11204,11 +11208,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1715274008313498054, guid: b2039085561329543995b3c5e313b3b0, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2.83
+      value: -20.58
       objectReference: {fileID: 0}
     - target: {fileID: 1715274008313498054, guid: b2039085561329543995b3c5e313b3b0, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -8.52
+      value: -10.02
       objectReference: {fileID: 0}
     - target: {fileID: 1715274008313498054, guid: b2039085561329543995b3c5e313b3b0, type: 3}
       propertyPath: m_LocalPosition.z

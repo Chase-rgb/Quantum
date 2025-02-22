@@ -185,7 +185,6 @@ public class GameManager : MonoBehaviour
                 Destroy(yarn);
             }
         }
-        roomNumber += 1;
     }
 
     public void SetUpLevel(Scene scene, LoadSceneMode mode) {
@@ -432,6 +431,11 @@ public class GameManager : MonoBehaviour
     public int getRoomNumber()
     {
         return roomNumber;
+    }
+
+    public void updateRoomNumber(int roomNumber)
+    {
+        this.roomNumber = roomNumber;
     }
 
     public float getStartTime()

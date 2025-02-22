@@ -228,12 +228,6 @@ public class PauseMenu: MonoBehaviour
 
     public void TriggerPause()
     {
-        this.yarnCountDisplay1.text = "" + GameManager.instance.getCollectedYarnCount();
-        this.roomNumDisplay1.text = "" + GameManager.instance.getRoomNumber();
-
-        this.yarnCountDisplay2.text = "" + GameManager.instance.getCollectedYarnCount();
-        this.roomNumDisplay2.text = "" + GameManager.instance.getRoomNumber();
-
         if (GameManager.instance.IsNetworked())
         {
             PauseMenuManager.instance.TogglePauseServerRpc();
@@ -245,6 +239,13 @@ public class PauseMenu: MonoBehaviour
 
     public void TogglePause(bool paused)
     {
+        this.yarnCountDisplay1.text = "" + GameManager.instance.getCollectedYarnCount();
+        this.roomNumDisplay1.text = "" + GameManager.instance.getRoomNumber();
+
+        this.yarnCountDisplay2.text = "" + GameManager.instance.getCollectedYarnCount();
+        this.roomNumDisplay2.text = "" + GameManager.instance.getRoomNumber();
+
+
         if (paused != true)
         {
             Resume();
